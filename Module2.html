@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Médicaments</title>
+    <!-- Inclure votre fichier CSS ici -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Gestion des Médicaments/Pharmacies</h1>
+    </header>
+    
+    <main>
+        <section id="ajouterMedicament">
+            <h2>Ajouter un Médicament</h2>
+            <form>
+                <label for="nomMedicament">Nom du Médicament :</label>
+                <input type="text" id="nomMedicament" name="nomMedicament" required>
+                
+                <label for="quantite">Quantité :</label>
+                <input type="number" id="quantite" name="quantite" required>
+                
+                <button type="submit">Ajouter Médicament</button>
+            </form>
+        </section>
+        
+        <section id="supprimerMedicament">
+            <h2>Supprimer un Médicament</h2>
+            <form>
+                <label for="idMedicament">ID du Médicament à Supprimer :</label>
+                <input type="number" id="idMedicament" name="idMedicament" required>
+                
+                <button type="submit">Supprimer Médicament</button>
+            </form>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 Gestion des Médicaments</p>
+    </footer>
+</body>
+</html>
+
+
+
+
