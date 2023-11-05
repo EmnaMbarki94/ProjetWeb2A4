@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Formulaire de Commande</title>
+   
+    <style>
+
+        body {
+            background-image: url('spt.png'); /* Remplacez 'votre_image_de_fond.jpg' par le chemin de votre image de fond */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Fixe l'image de fond à l'écran */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff; /* Couleur du texte en blanc pour contraster avec l'image de fond */
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.8); /* Arrière-plan du formulaire avec une certaine opacité pour la lisibilité */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            max-width: 400px; /* Largeur maximale du formulaire pour le centrer correctement */
+        }
+
+        label, input, textarea {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formulaire de Commande</h1>
+    <form action="traitement_commande.php" method="post">
+        <label for="nom_client">Nom du client:</label>
+        <input type="text" id="nom_client" name="nom_client" required>
+
+        <label for="produit">Produit:</label>
+        <input type="text" id="produit" name="produit" required>
+
+        <label for="quantite">Quantité:</label>
+        <input type="number" id="quantite" name="quantite" required>
+
+        <label for="adresse_livraison">Adresse de livraison:</label>
+        <textarea id="adresse_livraison" name="adresse_livraison" required></textarea>
+        <label>Choisir l'option:</label>
+        <input type="radio" id="payer" name="option" value="payer" required>
+        <label for="payer">Payer</label>
+        <input type="radio" id="don" name="option" value="don" required>
+        <label for="don">Don</label>
+        <a href= "file:///C:/Users/MSI/Desktop/2A/projet%20web/boulares.html" > Passer la commande</a>
+        <input type="submit" value="Passer la commande">
+        
+    </form>
+</body>
+</html>
