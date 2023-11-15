@@ -1,4 +1,5 @@
 <?php
+
 class config
 {
     private static $pdo = null;
@@ -8,7 +9,7 @@ class config
         if (!isset(self::$pdo)) {
             try {
                 self::$pdo = new PDO(
-                    'mysql:host=localhost;dbname=atelierPHP',
+                    'mysql:host=localhost;dbname=blog',
                     'root',
                     '',
                     [
@@ -16,7 +17,7 @@ class config
                         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
                     ]
                 );
-                //echo "Connexion réussie";
+                //echo "connected successfully";
             } catch (Exception $e) {
                 die('Erreur: ' . $e->getMessage());
             }
@@ -24,4 +25,12 @@ class config
         return self::$pdo;
     }
 }
-?>
+
+
+
+
+
+
+
+
+config::getConnexion();

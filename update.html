@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+
+         <!-- Form for updating a blog post -->
+         <form action="blog.php" method="post">
+            <h2>Update Blog Post</h2>
+            <label for="updateId">Post ID:</label>
+            <input type="text" id="updateId" name="updateId" required>
+            
+            <label for="updateContent">New Content:</label>
+            <textarea id="updateContent" name="updateContent" required></textarea>
+            
+            <button type="submit" name="updatePost">Update Post</button>
+        </form>
+
+
+    </div>
+</body>
+</html>
