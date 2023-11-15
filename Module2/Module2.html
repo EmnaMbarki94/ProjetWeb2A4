@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Pharmacies</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Gestion des Pharmacies</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="front.html">Accueil</a></li>
+            <li><a href="Module2.html">Espace Pharmacies</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="gestionPharmacie">
+            <h2>Ajout des medicaments</h2>
+            <form action="addMedicament.php" method="POST">
+
+                <label for="codeM">Code du Médicament :</label>
+                <input type="text" id="codeM" name="codeM" required>
+
+                <label for="nom">Nom du Médicament :</label>
+                <input type="text" id="Nom" name="Nom" required>
+
+                <label for="Prix">Prix du Médicament :</label>
+                <input type="text" id="Prix" name="Prix" required>
+                
+                <label for="Quantite">Quantité :</label>
+                <input type="number" id="Quantite" name="Quantite" required>
+
+                <button type="submit">Ajouter Médicament</button>
+
+            </form>
+            <h2>Liste des Médicaments</h2>
+            <ul>
+                <form action="listMedicaments.php" method="GET">
+                <button type="submit">Liste des Médicaments</button>
+                </form>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Gestion des Pharmacies</p>
+    </footer>
+</body>
+</html>
+
+
+
+
