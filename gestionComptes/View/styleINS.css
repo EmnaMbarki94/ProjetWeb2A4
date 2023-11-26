@@ -6,7 +6,7 @@
 }
 
 body{
-    display: flex;
+    
     justify-content: center;
     align-items: center;
     min-height:100vh;
@@ -27,7 +27,7 @@ body{
     color: #fff;
     border-radius: 10px;
     padding: 40px 35px 55px;
-    margin: 0 10px;
+    margin: 50px auto;
 }
 .cadre h1{
     font-size: 36px;
