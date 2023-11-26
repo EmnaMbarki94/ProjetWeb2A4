@@ -1,19 +1,19 @@
- <?php
+<?php
  require_once '../config.php';
 
 
-class DonC
+class LivraisonC
 {
-    public function listDon()
+    public function ListLivraison()
     {
         $pdo = config::getConnexion();
-        $query = "SELECT * FROM dons";
+        $query = "SELECT * FROM livraison";
         $result = $pdo->query($query);
         return $result;
     }
 
 
-    public function deleteDon($codeD)
+    public function deleteLivraison($codeCom)
     {
        /* $pdo = config::getConnexion();
 
@@ -27,10 +27,10 @@ class DonC
         } else {
             return false; // Deletion failed
         }*/
-        $sql = "DELETE FROM dons WHERE CODED = :codeD ";
+        $sql = "DELETE FROM livraison WHERE CODECOM = :codeCom ";
         $db = config::getConnexion();
         $req = $db->prepare($sql);
-        $req->bindValue(':codeD', $codeD);
+        $req->bindValue(':codeCom', $codeCom);
 
         try {
             $req->execute();
@@ -42,57 +42,58 @@ class DonC
 
 
 
-    public function addDon($codeD, $destination, $typeD, $nom_donneur,$id_liv)
+    public function addLivraison($codeCom, $Destination, $nom, $numero_tele,$Etat_livraison)
     {
         $pdo = config::getConnexion();
 
         // Use a prepared statement to prevent SQL injection
-        $query = "INSERT INTO dons (codeD, destination, typeD, nom_donneur , id_liv)
-          VALUES (:codeD, :destination, :typeD, :nom_donneur ,:id_liv)";
+        $query = "INSERT INTO Livraison (codeCom, Destination, nom, numero_tele, Etat_livraison)
+          VALUES (:codeCom, :Destination, :nom, :numero_tele ,:Etat_livraison)";
 
         $stmt = $pdo->prepare($query);
-        $stmt->bindParam(':codeD', $codeD, PDO::PARAM_STR);
-        $stmt->bindParam(':destination', $destination, PDO::PARAM_STR);
-        $stmt->bindParam(':typeD', $typeD, PDO::PARAM_STR);
-        $stmt->bindParam(':nom_donneur', $nom_donneur, PDO::PARAM_STR);
-        $stmt->bindParam(':id_liv', $id_liv, PDO::PARAM_STR);
+        $stmt->bindParam(':codeCom', $codeCom, PDO::PARAM_STR);
+        $stmt->bindParam(':Destination', $Destination, PDO::PARAM_STR);
+        $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+        $stmt->bindParam(':numero_tele', $numero_tele, PDO::PARAM_STR);
+        $stmt->bindParam(':Etat_livraison', $Etat_livraison , PDO::PARAM_STR);
+        
         if ($stmt-> execute()) {
             return true; // Successfully added
         } else {
             return false; // Add failed
         }
     }
-   public function updateDon($codeD, $destination, $typeD, $nom_donneur,$id_liv)
-    {
-      //test
-      $pdo = config::getConnexion();
+   public function updateDon($codeCom, $Destination, $nom, $numero_tele,$Etat_livraison)
+   {//test
+    $pdo = config::getConnexion();
  
-      $query = " UPDATE dons 
-                SET codeD = :codeD, destination = :destination, typeD= :typeD, nom_donneur = :nom_donneur)
-                WHERE CODED = :codeD";
-  
-      $stmt = $pdo->prepare($query);
-      $stmt = $pdo->prepare($query);
-      $stmt->bindParam(':codeD', $codeD, PDO::PARAM_INT);
-      $stmt->bindParam(':destination', $destination, PDO::PARAM_STR);
-      $stmt->bindParam(':typeD', $typeD, PDO::PARAM_STR);
-      $stmt->bindParam(':nom_donneur', $nom_donneur, PDO::PARAM_STR);
-      $stmt->bindParam(':id_liv', $id_liv, PDO::PARAM_STR);
-  
+    $query = "UPDATE dons 
+              SET codeCom = :codeCom, Destination = :Destination, nom= :nom , numero_tele = :numero_tele)
+              WHERE CODED = :codeD";
+
+    $stmt = $pdo->prepare($query);
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':codeCom', $codeCom, PDO::PARAM_INT);
+    $stmt->bindParam(':Destination', $Destination, PDO::PARAM_STR);
+    $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+    $stmt->bindParam(':numero_tele', $numero_tele, PDO::PARAM_STR);
+    $stmt->bindParam(':Etat_livraison', $Etat_livraison, PDO::PARAM_STR);
+
+ 
+ 
+   return $stmt->execute();} 
    
-   
-     return $stmt->execute();
         
-     }
+     
 
 
-    public function getDonByCODED($codeD)
+    public function getLivraisonBycodeCom($codeCom)
     {
         $pdo = config::getConnexion();
 
-        $query = "SELECT * FROM dons WHERE CODED = :codeD";
+        $query = "SELECT * FROM livraison WHERE codeCom = :codeCom";
         $stmt = $pdo->prepare($query);
-        $stmt->bindParam(':codeD', $codeD, PDO::PARAM_INT);
+        $stmt->bindParam(':codeCom', $codeCom, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -146,5 +147,43 @@ class DonC
 */
     
 }    
+class GenneC {
+    public function affichedons ($codeD) 
+    {
+        try 
+        {
+            $pdo=config::getConnexion();
+            $query = $pdo-›prepare("SELECT * FROM dons WHERE id_liv = :id");
+            $query->execute(['id' => $codeD]);
+            return $query-> fetchALL();
+        }
+        catch (PDOException $e) 
+        {
+            echo $e->getMessage();
+        }
+       
+    }
+        
+      
+    public function affichelivraison()  {
+        try 
+        {
+            $pdo = config:: getconnexion();
+            $query = $pdo-›prepare("SELECT * FROM livraison");
+            $query-> execute ();
+            return $query-›fetchAll();
+            
+        }
+        catch (POOException $e) 
+        {
+            echo $e->getMessage();
+        }
+     }
+            
+        
+        
+}
+
+
 
 ?>
