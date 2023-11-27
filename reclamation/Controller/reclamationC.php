@@ -89,4 +89,15 @@ class reclamationC
             $e->getMessage();
         }
     }
+    public function afficherReponse($id)
+    {
+        try{
+            $pdo =config::getConnexion();
+            $query = $pdo->prepare("SELECT * FROM reponse WHERE reclamation = :id");
+            $query->execute(['id'=> $id]);
+            return $query->fetchAll();
+        }catch (PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }
