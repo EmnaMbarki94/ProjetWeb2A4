@@ -42,29 +42,13 @@ if (
         if ($clientC->clientExists($email)) {
             $error = "Cet utilisateur existe déjà. Veuillez utiliser une autre adresse email.";
         } 
-        else 
-        {
-            if (strlen($numTel) >= 8 && is_numeric($numTel)) 
-            {
-                if (preg_match('/@gmail\.com$/', $email))
-                {
+        else {
 
-                    if ($mdp == $repeatpassword) {
-                        // Les mots de passe sont identiques, vous pouvez créer un nouveau client
-                        $client = new client(null, $nom, $prenom, $email, $numTel, $mdp, $rolee);
-                        $clientC->addClient($client);
-                    } else {
-                        $error = "Les mots de passes ne sont pas identiques.";
-                    }
-                }else {
-                    $error = "L'adresse email doit être un compte Gmail (@gmail.com)";
-                }
-            }else {
-                $error = "Le numéro de téléphone doit comporter au moins 8 chiffres";
-            }
-
+             $client = new client(null, $nom, $prenom, $email, $numTel, $mdp, $rolee);
+            $clientC->addClient($client);
         }
     }
+    
 }
 ?>
 <!DOCTYPE html>
@@ -118,14 +102,14 @@ if (
                     <i class='bx bxs-user' ></i>
                 </div>
                 <div class="input-field">
-                    <input type="text" id="prenom" name="prenom" placeholder="Prénom" required minlength="2" maxlength="20">
+                    <input type="text" id="prenom" name="prenom" placeholder="Prénom" required>
                     <span id="erreurPrenom" class="error"></span><br><br>
                     <i class='bx bxs-user' ></i>
                 </div>
             </div>
             <div class="input-box">
                 <div class="input-field">
-                    <input type="email" id="email" name="email" placeholder="Email" pattern=".+@gmail\.com" required>
+                    <input type="email" id="email" name="email" placeholder="Email" required>
                     <span id="erreurEmail" class="error"></span><br><br>
                     <i class='bx bx-envelope'></i>
                 </div>
@@ -161,6 +145,7 @@ if (
             </div>
         </form>
     </div>
+    <p style="color:red" id="error"></p>
     <style>
         *{
         margin: 0;
@@ -324,10 +309,8 @@ if (
           color:black;
         }
     </style>
-    <p style="color:red" id="error"></p>
     
-
-<footer>
+    <footer>
 		<div class="socialicons">
 			<a href=""><i class="fa-brands fa-facebook"></i></a>
 			<a href=""><i class="fa-brands fa-instagram"></i></a>
@@ -339,7 +322,67 @@ if (
 			<p>copyright &copy; SPT - 2023-2024 - All rights reserved; Designed by <span class="designer "> SPT GROUP </span>
 			</p> 
 		</div>
-	</footer>
-    <script src="addClient.js"></script>
+    </footer>
+    <script>
+        function validerForm() {
+            var erreurN = "";
+            var erreurP = "";
+            var erreurT = "";
+            var erreurE = "";
+            var erreurMotDePasse = "";
+
+            var emailVal = document.getElementById("email").value;
+            var nom = document.getElementById("nom").value;
+            var prenom = document.getElementById("prenom").value;
+            var numero = document.getElementById("numTel").value;
+            var mdp = document.getElementById('mdp').value;
+            var repeterMdp = document.getElementById('repetermdp').value;
+            var erreurMotDePasseElem = document.getElementById('erreurMotDePasse');
+            var erreurEElem = document.getElementById("erreurEmail");
+
+            var regexNom = /^[A-Za-z]+$/; // Expression régulière pour vérifier les lettres
+            var regexTel = /^[0-9]{8}$/; // Expression régulière pour vérifier 8 chiffres
+            var regexEmail = /@gmail\.com$/; // Expression régulière pour vérifier l'email
+
+            // Réinitialiser les messages d'erreur à chaque vérification
+            document.getElementById("erreurNom").innerHTML = "";
+            document.getElementById("erreurPrenom").innerHTML = "";
+            document.getElementById("erreurTelephone").innerHTML = "";
+            erreurMotDePasseElem.innerHTML = "";
+            erreurEElem.innerHTML = "";
+
+            if (!regexNom.test(nom)) {
+                erreurN = "Le nom ne doit contenir que des lettres.";
+                document.getElementById("erreurNom").innerHTML = erreurN;
+            }
+            if ((prenom.length < 2) && (!regexNom.test(prenom))) {
+                erreurP = "Le prénom doit avoir au moins 2 caractères.";
+                document.getElementById("erreurPrenom").innerHTML = erreurP;
+            }
+            if (!regexTel.test(numero)) {
+                erreurT = "Le numéro de téléphone doit contenir exactement 8 chiffres.";
+                document.getElementById("erreurTelephone").innerHTML = erreurT;
+            }
+
+            if (mdp !== repeterMdp) {
+                erreurMotDePasseElem.innerHTML = "Les mots de passe ne correspondent pas.";
+            }
+
+            if (regexEmail.test(emailVal)) {
+                erreurEElem.innerHTML = "<span style='color:green'>Adresse e-mail valide.</span>";
+            } else {
+                erreurEElem.innerHTML = "<span style='color:red'>Adresse e-mail invalide.</span>";
+            }
+
+            if (erreurN || erreurP || erreurE || erreurT || erreurMotDePasse) {
+                // Empêcher la soumission du formulaire si des erreurs sont présentes
+                return false;
+            } else {
+                // Autoriser la soumission du formulaire si aucune erreur n'est trouvée
+                return true;
+            }
+        }
+</script>
+    <!--<script src="addClient.js"></script>-->
 </body>
 </html>

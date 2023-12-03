@@ -1,5 +1,5 @@
 <?php
-// Importations bécessaires
+// Importations nécessaires
 include '../Controller/pharmacieC.php';
 include '../Model/pharmacie.php';
 
@@ -277,6 +277,59 @@ if (
 			</p> 
 		</div>
 	</footer>
-    <script src="addPharmacie.js"></script>
+    <script>
+        function validerForm() {
+            var erreurN = "";
+            var erreurT = "";
+            var erreurE = "";
+            var erreurMotDePasse = "";
+
+            var emailVal = document.getElementById("email").value;
+            var nom = document.getElementById("nomPh").value;
+            var numero = document.getElementById("numPh").value;
+            var mdp = document.getElementById('mdp').value;
+            var repeterMdp = document.getElementById('repetermdp').value;
+            var erreurMotDePasseElem = document.getElementById('erreurMotDePasse');
+            var erreurEElem = document.getElementById("erreurEmail");
+
+            var regexNom = /^[A-Za-z]+$/; // Expression régulière pour vérifier les lettres
+            var regexTel = /^[0-9]{8}$/; // Expression régulière pour vérifier 8 chiffres
+            var regexEmail = /@gmail\.com$/; // Expression régulière pour vérifier l'email
+
+            // Réinitialiser les messages d'erreur à chaque vérification
+            document.getElementById("erreurNom").innerHTML = "";
+            document.getElementById("erreurTelephone").innerHTML = "";
+            erreurMotDePasseElem.innerHTML = "";
+            erreurEElem.innerHTML = "";
+
+            if (!regexNom.test(nom)) {
+                erreurN = "Le nom ne doit contenir que des lettres.";
+                document.getElementById("erreurNom").innerHTML = erreurN;
+            }
+            if (!regexTel.test(numero)) {
+                erreurT = "Le numéro de téléphone doit contenir exactement 8 chiffres.";
+                document.getElementById("erreurTelephone").innerHTML = erreurT;
+            }
+
+            if (mdp !== repeterMdp) {
+                erreurMotDePasseElem.innerHTML = "Les mots de passe ne correspondent pas.";
+            }
+
+            if (regexEmail.test(emailVal)) {
+                erreurEElem.innerHTML = "<span style='color:green'>Adresse e-mail valide.</span>";
+            } else {
+                erreurEElem.innerHTML = "<span style='color:red'>Adresse e-mail invalide.</span>";
+            }
+
+            if (erreurN || erreurE || erreurT || erreurMotDePasse) {
+                // Empêcher la soumission du formulaire si des erreurs sont présentes
+                return false;
+            } else {
+                // Autoriser la soumission du formulaire si aucune erreur n'est trouvée
+                return true;
+            }
+        }
+</script>
+    <!--<script src="addPharmacie.js"></script>-->
 </body>
 </html>

@@ -20,36 +20,31 @@ function validerForm()
     if (!regexNom.test(nom)) {
         erreurN = "Le nom ne doit contenir que des lettres.";
         document.getElementById("erreurNom").innerHTML = erreurN;
-    } else {
-        document.getElementById("erreurNom").innerHTML = "<span style='color:green'>Correct</span>";
-    }
+    } 
     if (!regexTel.test(numero)) {
         erreurT = "Le numéro de téléphone doit contenir exactement 8 chiffres.";
         document.getElementById("erreurTelephone").innerHTML = erreurT;
-    } else {
-        document.getElementById("erreurTelephone").innerHTML = "<span style='color:green'>Correct</span>";
-    }
+    } 
     
     if (mdp !== repeterMdp) {
         erreurMotDePasse.innerHTML = "Les mots de passe ne correspondent pas.";
-    } else {
-        erreurMotDePasse.innerHTML = "<span style='color:green'>Correct</span>"; 
-    }
+    } 
 
     if (regexEmail.test(emailVal)) {
         erreurE.innerHTML = "<span style='color:green'>Adresse e-mail valide.</span>";
     } else {
         erreurE.innerHTML = "<span style='color:red'>Adresse e-mail invalide.</span>";
     }
-    if (erreurN  || erreurT || erreurMotDePasse|| erreurE) 
-    {
-        return false;
+    
+    if (erreurN || erreurE || erreurT || erreurMotDePasse) {
+        e.preventDefault();
+        return false; 
     }
-    else 
+    else
     {
         return true;
     }
-   
+
     
 }
 /*function validerNom() {
