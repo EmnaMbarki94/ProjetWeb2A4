@@ -11,7 +11,7 @@ class clientC
 
         $db = config::getConnexion();//pdo
         try {
-            $liste = $db->query($sql);//table des joueurs
+            $liste = $db->query($sql);
             return $liste;
         } catch (Exception $e) {
             die('Error:' . $e->getMessage());
@@ -36,7 +36,7 @@ class clientC
     function addClient($client)
     {
         $sql = "INSERT INTO client  
-        VALUES (NULL, :nom,:prenom, :email,:numTel,:mdp)";
+        VALUES (NULL, :nom,:prenom, :email,:numTel,:mdp,:rolee)";
         $db = config::getConnexion();
         try {
             $query = $db->prepare($sql);
@@ -46,6 +46,7 @@ class clientC
                 'email' => $client->getEmail(),
                 'numTel' => $client->getnumTel(),
                 'mdp' => $client->getmdp(),
+                'rolee' => $client->getRolee()
             ]);
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
@@ -77,7 +78,8 @@ class clientC
                     prenom = :prenom, 
                     email = :email, 
                     numTel = :numTel,
-                    mdp = :mdp
+                    mdp = :mdp,
+                    rolee = :rolee
                 WHERE idClient= :id'
             );
             
@@ -88,6 +90,7 @@ class clientC
                 'email' => $client->getEmail(),
                 'numTel' => $client->getnumTel(),
                 'mdp' => $client->getmdp(),
+                'rolee' => $client->getRolee()
             ]);
             
             echo $query->rowCount() . " records UPDATED successfully <br>";
@@ -96,21 +99,31 @@ class clientC
         }
     }
 
-    public function clientExists($email)
-    {
-        try {
-            $pdo = config::getConnexion(); // Utilisation de la classe de configuration pour obtenir la connexion PDO
-            $query = "SELECT COUNT(*) as count FROM client WHERE email = :email";
-            $stmt = $pdo->prepare($query);
-            $stmt->bindParam(':email', $email);
-            $stmt->execute();
+    public function getClientByEmail($email) {
 
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $db = config::getConnexion();
 
-            return ($row['count'] > 0); // Renvoie vrai si l'email existe déjà, sinon faux
-        } catch (PDOException $e) {
-            die('Erreur lors de la vérification de l\'existence du client: ' . $e->getMessage());
+        $query = $db->prepare("SELECT * FROM client WHERE email = :email");
+        $query->bindParam(':email', $email);
+        $query->execute();
+
+        // Récupérez les détails du client sous forme de tableau associatif
+        $clientDetails = $query->fetch(PDO::FETCH_ASSOC);
+
+        return $clientDetails; // Retourne les détails du client ou null s'ils ne sont pas trouvés
+    }
+    function clientExists($email) {
+       
+        $db = config::getConnexion();
+    
+        $sql = "SELECT * FROM client WHERE email = '$email'";
+        $result = $db->query($sql);
+    
+        // Si des résultats sont retournés, cela signifie que l'e-mail existe déjà
+        if ($result && $result->rowcount() > 0) {
+            return true; // L'e-mail existe déjà
+        } else {
+            return false; 
         }
     }
-
 }

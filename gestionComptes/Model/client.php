@@ -7,8 +7,9 @@ class client
     private ?string $email = null;
     private ?string $numTel = null;
     private ?string $mdp = null;
+    private ?string $rolee = null;
 
-    public function __construct($id = null, $n, $p, $a, $t, $m)
+    public function __construct($id = null, $n, $p, $a, $t, $m,$r)
     {
         $this->idClient = $id;
         $this->nom = $n;
@@ -16,6 +17,7 @@ class client
         $this->email = $a;
         $this->numTel = $t;
         $this->mdp = $m;
+        $this->rolee = $r;
     }
 
 
@@ -89,6 +91,19 @@ class client
     public function setmdp($mdp)
     {
         $this->mdp = $mdp;
+
+        return $this;
+    }
+
+    public function getRolee()
+    {
+        return $this->rolee;
+    }
+
+
+    public function setRolee($rolee)
+    {
+        $this->rolee = $rolee;
 
         return $this;
     }
