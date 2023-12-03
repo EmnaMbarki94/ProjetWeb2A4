@@ -8,20 +8,33 @@ class consultation
     private ?string $date_consultation = null;
     private ?string $heure_consultation = null;
     private ?string $symtomes = null;
+    private ?string $id_cabinet = null;
 
-    public function __construct($id = null, $np, $nm, $a, $d,$h,$s)
+    public function __construct($id = null, $np, $a, $nm, $s,$d,$h,$c)
     {
         $this->id_consultation = $id;
         $this->nom_patient = $np;
-        $this->nom_medecin = $nm;
         $this->email_patient = $a;
+        $this->nom_medecin = $nm;
+        $this->symtomes = $s;
         $this->date_consultation = $d;
         $this->heure_consultation = $h;
-        $this->symtomes = $s;
+        $this->id_cabinet = $c;
+    }
+
+    public function getIdCabinet()
+    {
+        return $this->id_cabinet;
     }
 
 
-    public function getIdconsultation()
+    public function setIdCabinet($nom_patient)
+    {
+        $this->id_cabinet = $id_cabinet;
+
+        return $this;
+    }
+    public function getIdConsultation()
     {
         return $this->id_consultation;
     }
@@ -83,7 +96,7 @@ class consultation
     }
     public function getHeureConsultation()
     {
-        return $this->heure_consultaion;
+        return $this->heure_consultation;
     }
 
 

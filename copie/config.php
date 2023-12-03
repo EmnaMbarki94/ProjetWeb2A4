@@ -22,5 +22,5 @@ class Config {
         return self::$pdo;
     }
 }
-config::getConnexion();
+Config::getConnexion();
 
