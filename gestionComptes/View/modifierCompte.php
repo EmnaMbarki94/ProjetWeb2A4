@@ -41,15 +41,6 @@ if (isset($_SESSION['email'])) {
                 $error = "Informations manquantes";
             }
         }
-
-        // Pré-remplissage des champs du formulaire avec les détails du client récupérés
-        $client = array(
-            'nom' => $clientDetails['nom'],
-            'prenom' => $clientDetails['prenom'],
-            'email' => $clientDetails['email'],
-            'numTel' => $clientDetails['numTel'],
-            'mdp' => $clientDetails['mdp']
-        );
     } 
     }
 ?>
@@ -96,6 +87,64 @@ if (isset($_SESSION['email'])) {
             </div>
         </div>
     </div>
+
+    <?php
+        if (isset($_POST['idClient'])) {
+            $client = $clientC->showClient($_POST['idClient']);
+            
+    ?>
+    <form action="" method="POST">
+        <table>
+            <tr>
+                <td><label for="nom">Nom :</label></td>
+                <td>
+                    <input type="text" id="nom" name="nom" value="<?php echo $client['nom'] ?>" />
+                    <span id="erreurNom" style="color: red"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="prenom">Prénom :</label></td>
+                <td>
+                    <input type="text" id="prenom" name="prenom" value="<?php echo $client['prenom'] ?>" />
+                    <span id="erreurPrenom" style="color: red"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="email">Email :</label></td>
+                <td>
+                    <input type="text" id="email" name="email" value="<?php echo $client['email'] ?>" />
+                    <span id="erreurEmail" style="color: red"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="telephone">Téléphone :</label></td>
+                <td>
+                    <input type="text" id="telephone" name="numTel" value="<?php echo $client['numTel'] ?>" />
+                    <span id="erreurTelephone" style="color: red"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="mdp">Mot de passe :</label></td>
+                <td>
+                    <input type="text" id="mdp" name="mdp" value="<?php echo $client['mdp'] ?>" />
+                    <span id="erreurMdp" style="color: red"></span>
+                </td>
+            </tr>
+
+            <td>
+                <input type="submit" value="Save">
+            </td>
+            <td>
+                <input type="reset" value="Reset">
+            </td>
+        </table>
+
+    </form>
+    
+    <?php
+       }
+    ?>
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -156,62 +205,6 @@ if (isset($_SESSION['email'])) {
             background-color: #28a745;
         }
     </style>
-    <?php
-        if (isset($_POST['idClient'])) {
-            $client = $clientC->showClient($_POST['idClient']);
-            
-    ?>
-    <form action="" method="POST">
-        <table>
-            <tr>
-                <td><label for="nom">Nom :</label></td>
-                <td>
-                    <input type="text" id="nom" name="nom" value="<?php echo $client['nom'] ?>" />
-                    <span id="erreurNom" style="color: red"></span>
-                </td>
-            </tr>
-            <tr>
-                <td><label for="prenom">Prénom :</label></td>
-                <td>
-                    <input type="text" id="prenom" name="prenom" value="<?php echo $client['prenom'] ?>" />
-                    <span id="erreurPrenom" style="color: red"></span>
-                </td>
-            </tr>
-            <tr>
-                <td><label for="email">Email :</label></td>
-                <td>
-                    <input type="text" id="email" name="email" value="<?php echo $client['email'] ?>" />
-                    <span id="erreurEmail" style="color: red"></span>
-                </td>
-            </tr>
-            <tr>
-                <td><label for="telephone">Téléphone :</label></td>
-                <td>
-                    <input type="text" id="telephone" name="numTel" value="<?php echo $client['numTel'] ?>" />
-                    <span id="erreurTelephone" style="color: red"></span>
-                </td>
-            </tr>
-            <tr>
-                <td><label for="mdp">Mot de passe :</label></td>
-                <td>
-                    <input type="text" id="mdp" name="mdp" value="<?php echo $client['mdp'] ?>" />
-                    <span id="erreurMdp" style="color: red"></span>
-                </td>
-            </tr>
-
-            <td>
-                <input type="submit" value="Save">
-            </td>
-            <td>
-                <input type="reset" value="Reset">
-            </td>
-        </table>
-
-    </form>
-    
-    <?php
-       }
-    ?>
     <script src="templateF/js/jquery-3.3.1.min.js"></script>
   <script src="templateF/js/jquery-ui.js"></script>
   <script src="templateF/js/popper.min.js"></script>

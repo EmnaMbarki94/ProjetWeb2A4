@@ -1,7 +1,7 @@
 <?php
 
-include '../Controller/consultationC.php';
-include '../Model/consultation.php';
+include '../controller/consultationC.php';
+include '../model/consultation.php';
 $error = "";
 
 // create consultation
@@ -11,45 +11,52 @@ $consultationC = new ConsultationC();
 
 if (
     isset($_POST["nom_patient"]) &&
-    isset($_POST["prenom_patient"]) &&
     isset($_POST["email_patient"]) &&
-    isset($_POST["tel_patient"]) &&
+    isset($_POST["nom_medecin"]) &&
+    isset($_POST["symtomes"]) &&
     isset($_POST["date_consultation"]) &&
-    isset($_POST["symptomes"])
+    isset($_POST["heure_consultation"])&&
+    isset($_POST["adresse_cabinet"])
 ) {
     if (
-        !empty($_POST['nom_patient']) &&
-        !empty($_POST["prenom_patient"]) &&
+        !empty($_POST["nom_patient"]) &&
         !empty($_POST["email_patient"]) &&
-        !empty($_POST["tel_patient"]) &&
+        !empty($_POST["nom_medecin"]) &&
+        !empty($_POST["symtomes"]) &&
         !empty($_POST["date_consultation"]) &&
-        !empty($_POST["symptomes"])
+        !empty($_POST["heure_consultation"])&&
+        !empty($_POST["adresse_cabinet"])
     ) {
         foreach ($_POST as $key => $value) {
             echo "Key: $key, Value: $value<br>";
         }
-        $consultation = new Consultation(
+        var_dump($_POST);
+        $consultation = new consultation(
             null,
             $_POST['nom_patient'],
-            $_POST['prenom_patient'],
             $_POST['email_patient'],
-            $_POST['tel_patient'],
+            $_POST['nom_medecin'],
+            $_POST['symtomes'],
             $_POST['date_consultation'],
-            $_POST['symptomes']
+            $_POST['heure_consultation'],
+            $_POST['adresse_cabinet']
         );
+
         var_dump($consultation);
-        
-        $consultationC->updateConsultation($consultation, $_POST['idJoueur']);
+        $consultationC->updateConsultation($consultation, $_POST['id_consultation']);
 
         header('Location: list_consultations.php');
+        exit(); // Ajout de cette ligne pour arrêter l'exécution du script après la redirection
     } else {
         $error = "Missing information";
     }
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -98,7 +105,8 @@ if (
             font-weight: bold;
         }
 
-        input, textarea {
+        input,
+        textarea {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -120,13 +128,6 @@ if (
             background-color: #218838;
         }
     </style>
-
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Display</title>
 </head>
 
 <body>
@@ -138,6 +139,7 @@ if (
     </div>
 
     <?php
+    
     if (isset($_POST['id_consultation'])) {
         $consultation = $consultationC->showConsultation($_POST['id_consultation']);
     ?>
@@ -148,45 +150,59 @@ if (
                     <td><label for="id_consultation">IdConsultation :</label></td>
                     <td>
                         <input type="text" id="id_consultation" name="id_consultation" value="<?php echo $_POST['id_consultation'] ?>" readonly />
-                         <!--<span id="erreurNom" style="color: red"></span>-->
+
                     </td>
                 </tr>
                 <tr>
                     <td><label for="nom_patient">Nom patient:</label></td>
                     <td>
                         <input type="text" id="nom_patient" name="nom_patient" value="<?php echo $consultation['nom_patient'] ?>" />
-                         <!--<span id="erreurNom" style="color: red"></span>-->
+                        <span id="erreurNom" style="color: red"></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><label for="email_patient">Email_patient :</label></td>
+                    <td>
+                        <input type="text" id="email_patient" name="email_patient" value="<?php echo $consultation['email_patient'] ?>" />
+                        <span id="erreurEmail" style="color: red"></span>
                     </td>
                 </tr>
                 <tr>
                     <td><label for="nom_medecin">Nom medecin :</label></td>
                     <td>
                         <input type="text" id="nom_medecin" name="nom_medecin" value="<?php echo $consultation['nom_medecin'] ?>" />
-                        <!--<span id="erreurNom" style="color: red"></span>-->
+                        <span id="erreurNom" style="color: red"></span>
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="email_patient">Email_patient :</label></td>
+                    <td><label for="symtomes"> symtomes:</label></td>
                     <td>
-                        <input type="text" id="email_patient" name="email_patient" value="<?php echo $consultation['email_patient'] ?>" />
-                        <!-- <span id="erreurEmail" style="color: red"></span>-->
+                        <input type="text" id="symtomes" name="symtomes" value="<?php echo $consultation['symtomes'] ?>" />
+                        <span id="erreurSymtomes" style="color: red"></span>
                     </td>
                 </tr>
                 <tr>
                     <td><label for="date_consultation">Date consultation :</label></td>
                     <td>
-                        <input type="date" id="date_consultation" name="tel" value="<?php echo $consultation['date_consultation'] ?>" />
-                         <!--<span id="erreurDate" style="color: red"></span>-->
+                        <input type="date" id="date_consultation" name="date_consultation" value="<?php echo $consultation['date_consultation'] ?>" />
+                        <span id="erreurDate" style="color: red"></span>
                     </td>
                 </tr>
                 <tr>
                     <td><label for="heure_consultation"> Heure de consultation:</label></td>
                     <td>
-                        <input type="time" id="heure_consultation" name="tel" value="<?php echo $consultation['heure_consultation'] ?>" />
-                        <!--<span id="erreurHeure" style="color: red"></span>-->
+                        <input type="time" id="heure_consultation" name="heure_consultation" value="<?php echo $consultation['heure_consultation'] ?>" />
+                        <span id="erreurHeure" style="color: red"></span>
                     </td>
                 </tr>
+                <tr>
+                    <td><label for="adresse_cabinet">Adresse Cabinet :</label></td>
+                    <td>
+                        <input type="text" id="adresse_cabinet" name="adresse_cabinet" value="<?php echo $_POST['adresse_cabinet'] ?>" readonly />
 
+                    </td>
+                </tr>
                 <td>
                     <input type="submit" value="Save">
                 </td>
@@ -198,6 +214,3 @@ if (
     <?php
     }
     ?>
-</body>
-
-</html>

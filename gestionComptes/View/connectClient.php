@@ -8,6 +8,7 @@ if (isset($_POST['submit']))
 {
     $email=$_POST['email'];
     $mdp=$_POST['mdp'];
+    
     $db=new PDO('mysql:host=localhost;dbname=gestioncomptes','root','',);
 
     $sql="SELECT * FROM client WHERE email ='$email' AND mdp='$mdp' ";
@@ -17,40 +18,48 @@ if (isset($_POST['submit']))
     if ($result->rowcount() > 0)
     {
         $data= $result->fetch(PDO::FETCH_ASSOC);
+        $id=$data['idClient'];
         if($mdp === $data["mdp"])
         {
-           $role = $data["rolee"];
-           if ($email==="admin@gmail.com" && $mdp==="ADMINSPT"){
+          $_SESSION['email']=$email;
+          $_SESSION['mdp']=$mdp;
+
+          $_SESSION['idClient']=$id;
+
+          $role = $data["rolee"];
+           if ($role==="admin"){
             header('Location:listClients.php');  // Redirection vers la liste des clients
            }
            else 
            { 
-              $_SESSION['email']=$email;
-              $_SESSION['mdp']=$mdp;
               if ($role==="patient"){
                 header("Location: index.php");}
            }
         }else echo "Email ou mot de passe incorrect";
     }
-    $sqlPh="SELECT * FROM pharmacie WHERE email ='$email' ";
+
+
+    $emailPh=$_POST['email'];
+    $mdpPh=$_POST['mdp'];
+    $sqlPh="SELECT * FROM pharmacie WHERE email ='$emailPh' AND mdp='$mdpPh'";
     $result=$db->prepare($sqlPh);
     $result->execute();
 
     if ($result->rowcount() > 0)
     {
-        $data= $result->fetchAll();
-        if($mdp === $data[0]["mdp"])
+      $data= $result->fetch(PDO::FETCH_ASSOC);
+        if($mdpPh === $data["mdp"])
         {
-           if ($email==="admin@gmail.com" && $mdp==="ADMINSPT"){
+          $_SESSION['email']=$emailPh;
+          $_SESSION['mdp']=$mdpPh;
+           if ($emailPh==="admin@gmail.com" && $mdpPh==="ADMINSPT"){
             header("Location:listPharmacies.php"); 
            }
            else
            { 
-            $_session['email']=$email;
-            $_session['mdp']=$mdp;
             header("Location:templateF/shop.html");
            }
-        }else echo "Email ou mot de passe incorrect";
+        }
     }else echo "Email ou mot de passe incorrect";
 }
 
@@ -107,7 +116,7 @@ if (isset($_POST['submit']))
             </div>
             <div class="oublié">
                 <label><input type="checkbox" >Se rappeler</label>
-                <a href="#">Mot de passe oublié?</a>
+                <a href="forgotPassword.php">Mot de passe oublié?</a>
             </div>
             <button type="submit" name="submit" class="btn">Se connecter</button>
 

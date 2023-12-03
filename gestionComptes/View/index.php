@@ -85,7 +85,7 @@ $email = $_SESSION['email'];
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Paramètres<span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="deconnexion.php">Se déconnecter</a></li>
-                    <li><a href="modifierCompte.php">Modifier compte</a></li>
+                    <li><a href="editProfile.php">Modifier profil</a></li>
                   </ul>
                 </li>
               </ul>

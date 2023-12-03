@@ -1,5 +1,6 @@
 <?php
-include '../Controller/consultationC.php';
-$consultationC = new consultationC();
-$consultationC->deleteconsultation($_GET["id_consultation"]);
+include '../controller/consultationC.php';
+$consultationC = new ConsultationC();
+$consultationC->deleteConsultation($_GET["id"]);
 header('Location:list_consultations.php');//redirection de la route
+?>

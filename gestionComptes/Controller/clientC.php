@@ -11,7 +11,7 @@ class clientC
 
         $db = config::getConnexion();//pdo
         try {
-            $liste = $db->query($sql);//table des joueurs
+            $liste = $db->query($sql);
             return $liste;
         } catch (Exception $e) {
             die('Error:' . $e->getMessage());
@@ -126,5 +126,4 @@ class clientC
             return false; 
         }
     }
-    
 }

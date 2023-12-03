@@ -1,11 +1,19 @@
 <?php
+session_start();
+if (! isset($_SESSION['email'])) {
+  header("Location: connectClient.php");
+  exit;
+}
+echo "Bienvenue " .$_SESSION['email'];
+$email = $_SESSION['email'];
+?>
+
+<?php
 include "../Controller/clientC.php";
 
 $c = new clientC();
-$tab = $c->listClients();
-
+$tab = $c->listClients(); 
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -136,7 +144,7 @@ $tab = $c->listClients();
         </ul>
       </nav>
       
-
+<div class="formulaire">
 <table border="1" align="center" width="70%">
     <tr>
         <th>Id Client</th>
@@ -178,6 +186,29 @@ $tab = $c->listClients();
     ?>
 </table>
 
+<form method="POST" action="">
+    <label for="idClient">Entrez l'id du client :</label>
+    <input type="text" name="idClient" id="idClient" required>
+    <input type="submit" value="Rechercher" name="search">
+    <?php
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['idClient']) && !empty($_POST['idClient'])) {
+        $idClient = $_POST['idClient'];
+        $client=$c->showClient($idClient);
+        if ($client) {
+          // Affichage des détails du client
+          echo "<h2>Détails du client :</h2>";
+          echo "<p>ID du client : " . $client['idClient'] . "</p>";
+          echo "<p>Mot de passe : " . $client['mdp'] . "</p>";
+          echo "<p>Nom : " . $client['nom'] . "</p>";
+        } else {
+          echo "Aucun client trouvé avec cet email.";
+        } 
+    }
+  }
+?>
+</form>
+</div>
 <style>
         body {
             display:flex;
