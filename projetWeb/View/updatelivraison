@@ -1,0 +1,125 @@
+<?php
+
+include '../Controller/LivraisonC.php';  // Assuming you have a LivraisonC.php file
+include '../Model/livraison.php';        // Assuming you have a Livraison.php file
+
+$error = "";
+
+// create livraison
+$livraison = null;
+
+// create an instance of the controller
+$livraisonC = new LivraisonC();
+
+if (
+    isset($_POST["nom"]) &&
+    isset($_POST["destination"]) &&
+    isset($_POST["numero_tele"]) &&
+    isset($_POST["etat_livraison"])
+) {
+    if (
+        !empty($_POST['nom']) &&
+        !empty($_POST["destination"]) &&
+        !empty($_POST["numero_tele"]) &&
+        !empty($_POST["etat_livraison"])
+    ) {
+        foreach ($_POST as $key => $value) {
+            echo "Key: $key, Value: $value<br>";
+        }
+
+        // Create a new livraison object
+        $livraison = new Livraison(
+            null,
+            $_POST['nom'],
+            $_POST['destination'],
+            $_POST['numero_tele'],
+            $_POST['etat_livraison']
+        );
+        var_dump($livraison);
+
+        // Update the livraison
+        $livraisonC->updatelivraison($livraison, $_POST['idLivraison']);
+
+        header('Location: listlivraison.php');
+    } else {
+        $error = "Missing information";
+    }
+}
+
+?>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livraison Display</title>
+</head>
+
+<body>
+    <button><a href="listlivraisons.php">Back to list</a></button>
+    <hr>
+
+    <div id="error">
+        <?php echo $error; ?>
+    </div>
+
+    <?php
+    if (isset($_POST['idLivraison'])) {
+        // Retrieve the livraison information
+        $livraison = $livraisonC->showLivraison($_POST['idLivraison']);
+    ?>
+
+        <form action="" method="POST">
+            <table>
+                <tr>
+                    <td><label for="idLivraison">Id Livraison :</label></td>
+                    <td>
+                        <input type="text" id="idLivraison" name="idLivraison" value="<?php echo $_POST['idLivraison'] ?>" readonly />
+                        <span id="erreurIdLivraison" style="color: red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="nom">Nom :</label></td>
+                    <td>
+                        <input type="text" id="nom" name="nom" value="<?php echo $livraison['nom'] ?>" />
+                        <span id="erreurNom" style="color: red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="destination">Destination :</label></td>
+                    <td>
+                        <input type="text" id="destination" name="destination" value="<?php echo $livraison['destination'] ?>" />
+                        <span id="erreurDestination" style="color: red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numero_tele">Numéro Téléphone :</label></td>
+                    <td>
+                        <input type="text" id="numero_tele" name="numero_tele" value="<?php echo $livraison['numero_tele'] ?>" />
+                        <span id="erreurNumeroTele" style="color: red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="etat_livraison">État Livraison :</label></td>
+                    <td>
+                        <input type="text" id="etat_livraison" name="etat_livraison" value="<?php echo $livraison['etat_livraison'] ?>" />
+                        <span id="erreurEtatLivraison" style="color red"></span>
+                    </td>
+                </tr>
+
+                <td>
+                    <input type="submit" value="Save">
+                </td>
+                <td>
+                    <input type="reset" value="Reset">
+                </td>
+            </table>
+
+        </form>
+    <?php
+    }
+    ?>
+</body>
+
+</html>

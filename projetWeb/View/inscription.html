@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+    <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S'inscrire</title>
+    <link rel="stylesheet" href="styleINS.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div id="error" class="error">
+        <span><?php echo $error; ?></span>
+    </div>
+    <div class="cadre">
+        <form id="formulaireInscription" action="addClient.php" method="POST">
+            <h1>S'inscrire</h1>
+            <div class="input-box">
+                <div class="input-field">
+                    <input type="text" id="nom" name="nom" placeholder="Nom" required minlength="2" maxlength="20">
+                    <span id="erreurNom" class="error"></span><br><br>
+                    <i class='bx bxs-user' ></i>
+                </div>
+                <div class="input-field">
+                    <input type="text" id="prenom" name="prenom" placeholder="Prénom" required minlength="2" maxlength="20">
+                    <span id="erreurPrenom" class="error"></span><br><br>
+                    <i class='bx bxs-user' ></i>
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="input-field">
+                    <input type="email" id="email" name="email" placeholder="Email" pattern=".+@gmail\.com" required>
+                    <span id="erreurEmail" class="error"></span><br><br>
+                    <i class='bx bx-envelope'></i>
+                </div>
+                <div class="input-field">
+                    <input type="number" id="numTel" name="numTel" placeholder="Numéro de téléphone">
+                    <span id="erreurTelephone" class="error"></span><br><br>
+                    <i class='bx bxs-phone'></i>
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="input-field">
+                    <input type="password" name="mdp" id="mdp" placeholder="Mot de passe" required>
+                    <span id="erreurMotDePasse" class="error"></span><br><br>
+                    <i class='bx bxs-lock'></i>
+                </div>
+                <div class="input-field">
+                    <input type="password" name="repetermdp" id="repetermdp" placeholder="Confirmer mot de passe" required>
+                    <i class='bx bxs-lock'></i>
+                </div>
+            </div>
+            <button type="submit" name="submit" class="btn">S'inscrire</button><br></br>
+            <div class="link">
+                <h4><center><a href="pharmacie.html">Créer une Page</a> pour une pharmacie ou un laboratoire</h4></center>
+            </div>
+        </form>
+    </div>
+    <p style="color:red" id="error"></p>
+    <script src="addClient.js"></script>
+</body>
+</html>

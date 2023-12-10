@@ -1,0 +1,381 @@
+<?php
+include '../Controller/clientC.php';
+include '../Model/client.php';
+//include '../view/inscription.html';
+
+$error = "";
+
+// create client
+$client = null;
+
+// create an instance of the controller
+$clientC = new clientC();
+
+if (
+    isset($_POST["nom"]) &&
+    isset($_POST["prenom"]) &&
+    isset($_POST["email"]) &&
+    isset($_POST["numTel"]) &&
+    isset($_POST["mdp"]) &&
+    isset($_POST["repetermdp"])&&
+    isset($_POST["rolee"])
+) 
+{
+    $nom = $_POST["nom"];
+    $prenom = $_POST["prenom"];
+    $email = $_POST["email"];
+    $numTel = $_POST["numTel"];
+    $mdp = $_POST["mdp"];
+    $repeatpassword = $_POST["repetermdp"];
+    $rolee = $_POST["rolee"];
+
+    if (
+        !empty($nom) &&
+        !empty($prenom) &&
+        !empty($email) &&
+        !empty($numTel) &&
+        !empty($mdp) &&
+        !empty($repeatpassword)&&
+        !empty($rolee)
+    ) 
+    {
+        if ($clientC->clientExists($email)) {
+            $error = "Cet utilisateur existe déjà. Veuillez utiliser une autre adresse email.";
+        } 
+        else {
+
+             $client = new client(null, $nom, $prenom, $email, $numTel, $mdp, $rolee);
+            $clientC->addClient($client);
+        }
+    }
+    
+}
+?>
+<!DOCTYPE html>
+    <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S'inscrire</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><strong>USER SPACE</strong></a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="connectClient.php">Sign-in <span class="sr-only">Sign-in</span></a></li>
+        <li  class="active"><a href="addClient.php">Sign-up</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div id="error" class="error">
+        <span><?php echo $error; ?></span>
+    </div>
+    <div class="cadre">
+        <form id="formulaireInscription" action="" method="POST" onsubmit="return validerForm();">
+            <h1><strong>Sign-up</strong></h1>
+            <div class="input-box">
+                <div class="input-field">
+                    <input type="text" id="nom" name="nom" placeholder="Last name" required minlength="2" maxlength="20">
+                    <span id="erreurNom" class="error"></span><br><br>
+                    <i class='bx bxs-user' ></i>
+                </div>
+                <div class="input-field">
+                    <input type="text" id="prenom" name="prenom" placeholder="First name" required>
+                    <span id="erreurPrenom" class="error"></span><br><br>
+                    <i class='bx bxs-user' ></i>
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="input-field">
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                    <span id="erreurEmail" class="error"></span><br><br>
+                    <i class='bx bx-envelope'></i>
+                </div>
+                <div class="input-field">
+                    <input type="number" id="numTel" name="numTel" placeholder="Phone number">
+                    <span id="erreurTelephone" class="error"></span><br><br>
+                    <i class='bx bxs-phone'></i>
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="input-field">
+                    <input type="password" name="mdp" id="mdp" placeholder="Password" required>
+                    <span id="erreurMotDePasse" class="error"></span><br><br>
+                    <i class='bx bxs-lock'></i>
+                </div>
+                <div class="input-field">
+                    <input type="password" name="repetermdp" id="repetermdp" placeholder="Confirm password" required>
+                    <i class='bx bxs-lock'></i>
+                </div>
+                
+                <label for="role">Role :
+                    <select name="rolee" id="rolee">
+                        <option value="patient">Patient</option>
+                        <option value="medecin">Doctor</option>
+                        <option value="livreur">Delivery guy</option>
+                    </select>
+                </label>
+        
+            </div>
+            <button type="submit" name="submit" class="btn">Sign-up</button><br></br>
+            <div class="link">
+                <p><center><a href="addPharmacie.php">Create a page </a><strong>for a pharmacy.</strong></p></center>
+            </div>
+        </form>
+    </div>
+    <p style="color:red" id="error"></p>
+    <style>
+        *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+        }
+
+        body{
+            
+            justify-content: center;
+            align-items: center;
+            background: #84CB86;
+        }
+        .error {
+            color: red;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .cadre{
+            width: 750px;
+            background: transparent;
+            border: 2px solid rgba(255,255,255, .2);
+            backdrop-filter: blur(50px);
+            box-shadow: 0 0 10px rgba(0,0,0, .2);
+            color: #fff;
+            border-radius: 10px;
+            padding: 40px 35px 55px;
+            margin: 50px auto;
+        }
+        .cadre h1{
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 20px;
+            color:white;
+        }
+        .cadre .input-box{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .input-box .input-field{
+            position: relative;
+            width: 48%;
+            height: 50px;
+            margin: 13px 0;
+        }
+        .input-box .input-field input{
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: 2px solid rgba(255,255,255, .2);
+            outline: none;
+            font-size: 16px;
+            color: #fff;
+            border-radius: 6px;
+            padding: 15px 15px 15px 40px;
+        }
+        .input-box .input-field input::placeholder{
+            color: #fff;
+
+        }
+        .input-box .input-field i{
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+        }
+        .cadre label{
+            display: block;
+            margin-bottom: 8px;
+            padding: 6px; 
+            font-weight: bold;
+            width: 150px;
+            color: #333;
+        }
+        .cadre label select{
+            
+            width: 80px;
+           
+        }
+        .cadre .btn {
+            width: 100%;
+            height: 45px;
+            background: #fff;
+            border: none;
+            outline: none;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0,0,0, .1);
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+        }
+        .cadre .lien-inscription{
+            font-size: 14px;
+            text-align: center;
+            margin: 20px 0 15px;
+        }
+        .lien-inscription p a{
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+        }.lien-inscription p a:hover{
+            text-decoration: underline;
+        }
+        @media (max-width:576px){
+            .input-box .input-field{
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+        footer{
+          color:white;
+          background-color:#fff;
+          margin:10px auto;
+        }
+        footer{
+          vertical-align:bottom;
+        }
+        .socialicons{
+          display:flex;
+          justify-content: center;
+        }
+        .socialicons a{
+          text-decoration: none;
+          padding: 10px;
+          background-color:#84CB86;
+          margin:10px;
+          border-radius: 50%;
+        }
+        .socialicons a i{
+          font-size: 2em;
+          color: white;
+          opacity: 0.9 ;
+        }
+        .socialicons a:hover{
+          background-color: #fff;
+          transition: 0.5s;
+        }
+        .socialicons a:hover i{
+          background-color: grey;
+          transition: 0.5s;
+        }
+        .footerbottom p{
+          color:black;
+          display: flex;
+          justify-content: center;
+        }
+        .designer{
+          opacity:0.7;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-weight: 400;
+          margin: 0px 5px;
+        }
+        footer p a{
+          color:black;
+        }
+    </style>
+    
+    <footer>
+		<div class="socialicons">
+			<a href=""><i class="fa-brands fa-facebook"></i></a>
+			<a href=""><i class="fa-brands fa-instagram"></i></a>
+			<a href=""><i class="fa-brands fa-twitter"></i></a>
+			<a href=""><i class="fa-brands fa-google-plus"></i></a>
+			<a href=""><i class="fa-brands fa-youtube"></i></a>
+		</div>
+		<div class="footerbottom">
+			<p>copyright &copy; SPT - 2023-2024 - All rights reserved; Designed by <span class="designer "> SPT GROUP </span>
+			</p> 
+		</div>
+    </footer>
+    <script>
+        function validerForm() {
+            var erreurN = "";
+            var erreurP = "";
+            var erreurT = "";
+            var erreurE = "";
+            var erreurMotDePasse = "";
+
+            var emailVal = document.getElementById("email").value;
+            var nom = document.getElementById("nom").value;
+            var prenom = document.getElementById("prenom").value;
+            var numero = document.getElementById("numTel").value;
+            var mdp = document.getElementById('mdp').value;
+            var repeterMdp = document.getElementById('repetermdp').value;
+            var erreurMotDePasseElem = document.getElementById('erreurMotDePasse');
+            var erreurEElem = document.getElementById("erreurEmail");
+
+            var regexNom = /^[A-Za-z]+$/; // Expression régulière pour vérifier les lettres
+            var regexTel = /^[0-9]{8}$/; // Expression régulière pour vérifier 8 chiffres
+            var regexEmail = /@gmail\.com$/; // Expression régulière pour vérifier l'email
+
+            // Réinitialiser les messages d'erreur à chaque vérification
+            document.getElementById("erreurNom").innerHTML = "";
+            document.getElementById("erreurPrenom").innerHTML = "";
+            document.getElementById("erreurTelephone").innerHTML = "";
+            erreurMotDePasseElem.innerHTML = "";
+            erreurEElem.innerHTML = "";
+
+            if (!regexNom.test(nom)) {
+                erreurN = "Le nom ne doit contenir que des lettres.";
+                document.getElementById("erreurNom").innerHTML = erreurN;
+            }
+            if ((prenom.length < 2) && (!regexNom.test(prenom))) {
+                erreurP = "Le prénom doit avoir au moins 2 caractères.";
+                document.getElementById("erreurPrenom").innerHTML = erreurP;
+            }
+            if (!regexTel.test(numero)) {
+                erreurT = "Le numéro de téléphone doit contenir exactement 8 chiffres.";
+                document.getElementById("erreurTelephone").innerHTML = erreurT;
+            }
+
+            if (mdp !== repeterMdp) {
+                erreurMotDePasseElem.innerHTML = "Les mots de passe ne correspondent pas.";
+            }
+
+            if (regexEmail.test(emailVal)) {
+                erreurEElem.innerHTML = "<span style='color:green'>Adresse e-mail valide.</span>";
+            } else {
+                erreurEElem.innerHTML = "<span style='color:red'>Adresse e-mail invalide.</span>";
+            }
+
+            if (erreurN || erreurP || erreurE || erreurT || erreurMotDePasse) {
+                // Empêcher la soumission du formulaire si des erreurs sont présentes
+                return false;
+            } else {
+                // Autoriser la soumission du formulaire si aucune erreur n'est trouvée
+                return true;
+            }
+        }
+</script>
+    <!--<script src="addClient.js"></script>-->
+</body>
+</html>
